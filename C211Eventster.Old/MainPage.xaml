@@ -1,0 +1,98 @@
+﻿<Page
+    x:Class="C211Eventster.Old.MainPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:C211Eventster.Old"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:maps="using:Windows.UI.Xaml.Controls.Maps"
+    xmlns:viewModels="using:C211Eventster.Old.ViewModels"
+    xmlns:libraryModels="using:C211Eventster.Library.Models"
+    mc:Ignorable="d">
+
+    <Page.DataContext>
+        <viewModels:MainPageViewModel />
+    </Page.DataContext>
+
+    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <!-- Header -->
+            <RowDefinition Height="Auto" />
+            <!-- Search -->
+            <RowDefinition Height="*" />
+            <!-- Results -->
+            <RowDefinition Height="*" />
+            <!-- Map -->
+        </Grid.RowDefinitions>
+
+        <!-- Header -->
+        <Border Background="Gray" Padding="12">
+            <TextBlock Text="Eventster" Style="{StaticResource TitleTextBlockStyle}" />
+        </Border>
+
+        <!-- Search -->
+        <Grid HorizontalAlignment="Stretch"
+              Grid.Row="1"
+              Padding="8"
+              Background="LightGray">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+
+            <TextBox x:Name="SearchBox" PlaceholderText="Please enter search terms"
+                     Text="{x:Bind ViewModel.SearchViewModel.SearchString, Mode=TwoWay}" />
+            <Button x:Name="SearchButton" Click="{x:Bind ViewModel.SearchViewModel.Search}" Grid.Column="1">
+                <SymbolIcon Symbol="Find" />
+            </Button>
+        </Grid>
+
+        <!-- Master/Detail -->
+        <Grid Grid.Row="2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
+
+            <ListView x:Name="SearchResults"
+                      ItemsSource="{x:Bind ViewModel.ResultsViewModel.EventsterEvents, Mode=OneWay}"
+                      SelectedItem="{Binding ResultsViewModel.CurrentEvent, Mode=TwoWay}"
+                      SelectionChanged="SearchResults_SelectionChanged" />
+
+            <Grid Grid.Column="1" Padding="12"
+                  Visibility="{x:Bind SearchResults.SelectedItem, Converter={StaticResource VisibilityConverter}, Mode=OneWay}">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition />
+                </Grid.RowDefinitions>
+                <StackPanel>
+                    <TextBlock Text="{Binding SelectedItem.EventName, ElementName=SearchResults}"
+                               Style="{StaticResource HeaderTextBlockStyle}" />
+                    <TextBlock Text="{Binding SelectedItem.Venue, ElementName=SearchResults}"
+                               Style="{StaticResource SubheaderTextBlockStyle}" />
+                    <TextBlock Text="{Binding SelectedItem.Address, ElementName=SearchResults}"
+                               Style="{StaticResource BodyTextBlockStyle}" />
+                </StackPanel>
+                <maps:MapControl x:Name="DetailMapControl"
+                                 HorizontalAlignment="Stretch"
+                                 VerticalAlignment="Stretch"
+                                 Grid.Row="1"
+                                 ZoomLevel="17"
+                                 Center="{x:Bind SearchResults.SelectedItem.(libraryModels:EventsterEvent.Location), Mode=OneWay}"
+                                 MapServiceToken="{StaticResource BingMapKey}" />
+            </Grid>
+        </Grid>
+
+        <!-- Overall Map -->
+
+        <maps:MapControl Grid.Row="3"
+                         Visibility="{Binding ItemsSource.Count, ElementName=SearchResults, Converter={StaticResource VisibilityConverter}, Mode=OneWay}"
+                         x:Name="OverallMapControl"
+                         HorizontalAlignment="Stretch"
+                         VerticalAlignment="Stretch"
+                         ZoomLevel="13"
+                         MapServiceToken="{StaticResource BingMapKey}" />
+
+    </Grid>
+</Page>
