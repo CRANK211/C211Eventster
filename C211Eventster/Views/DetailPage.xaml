@@ -90,7 +90,7 @@
                             </Border>
 
                             <StackPanel Grid.Column="1"
-                                        Margin="4">
+                                        Margin="12">
                                 <TextBlock Style="{StaticResource TitleTextBlockStyle}" Text="{x:Bind EventName}"/>
                                 <TextBlock Style="{StaticResource BodyTextBlockStyle}" Text="{x:Bind Venue}"/>
                             </StackPanel>

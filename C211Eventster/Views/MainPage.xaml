@@ -65,7 +65,7 @@
                 </Interactivity:Interaction.Behaviors>
             </TextBox>
 
-            <Button Margin="12,0" Grid.Column="1"
+            <Button Margin="12,0" Grid.Column="1" Padding="12" Background="#ACE72C"
                     Click="{x:Bind ViewModel.GotoDetailsPage}" FontSize="24" >
                 <SymbolIcon Symbol="Find"/>
             </Button>
