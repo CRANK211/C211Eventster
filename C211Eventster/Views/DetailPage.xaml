@@ -66,6 +66,17 @@
                       ItemsSource="{x:Bind ViewModel.ResultsViewModel.EventsterEvents, Mode=OneWay}"
                       SelectedItem="{Binding ResultsViewModel.CurrentEvent, Mode=TwoWay}"
                       SelectionChanged="SearchResults_SelectionChanged">
+                <ListView.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <ItemsStackPanel>
+                            <ItemsStackPanel.ChildrenTransitions>
+                                <TransitionCollection>
+                                    <EntranceThemeTransition IsStaggeringEnabled="True"/>
+                                </TransitionCollection>
+                            </ItemsStackPanel.ChildrenTransitions>
+                        </ItemsStackPanel>
+                    </ItemsPanelTemplate>
+                </ListView.ItemsPanel>
                 <ListView.ItemTemplate>
                     <DataTemplate x:DataType="libraryModels:EventsterEvent">
                         <Grid Margin="-8,4,4,4">
@@ -90,6 +101,11 @@
 
             <Grid Grid.Column="1" Padding="12"
                   Visibility="{x:Bind SearchResults.SelectedItem, Converter={StaticResource VisibilityConverter}, Mode=OneWay}">
+                <Grid.Transitions>
+                    <TransitionCollection>
+                        <EntranceThemeTransition/>
+                    </TransitionCollection>
+                </Grid.Transitions>
                 <Grid.Background>
                     <ImageBrush ImageSource="{Binding SelectedItem.ImageSource, ElementName=SearchResults}" Stretch="UniformToFill"/>
                 </Grid.Background>

@@ -1,3 +1,4 @@
+using System.Linq;
 using Windows.Foundation;
 using C211Eventster.ViewModels;
 using Windows.UI.Xaml.Navigation;
@@ -13,6 +14,10 @@ namespace C211Eventster.Views
         {
             InitializeComponent();
             NavigationCacheMode = NavigationCacheMode.Disabled;
+            this.Loaded += (sender, args) => 
+            {
+                SearchResults.SelectedItem = ViewModel.ResultsViewModel.EventsterEvents.First();
+            };
         }
 
         // strongly-typed view models enable x:bind
