@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using Windows.Devices.Geolocation;
+using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Media.Imaging;
 
 namespace C211Eventster.Library.Models
 {
@@ -66,8 +68,12 @@ namespace C211Eventster.Library.Models
             new Geopoint(new BasicGeoposition {Longitude = -104.948356607929, Latitude = 39.7403182927519}),
             new Geopoint(new BasicGeoposition {Longitude = -104.948356607929, Latitude = 39.7403182927519}),
             new Geopoint(new BasicGeoposition {Longitude = -104.959930423647, Latitude = 39.6745910961181}),
-            new Geopoint(new BasicGeoposition {Longitude = -104.985960004851, Latitude = 39.7309500072151}),
+            new Geopoint(new BasicGeoposition {Longitude = -104.985960004851, Latitude = 39.7309500072151})
         };
+
+        public string Description { get; set; } =
+            "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec odio. Praesent libero. Sed cursus ante dapibus diam. Sed nisi. Nulla quis sem at nibh elementum imperdiet. Duis sagittis ipsum. Praesent mauris. "
+            ;
 
 
         public string EventName { get; set; }
@@ -77,6 +83,10 @@ namespace C211Eventster.Library.Models
         public string Address { get; set; }
 
         public Geopoint Location { get; set; }
+
+        public BitmapImage ImageSource { get; set; }
+
+        public Symbol Symbol { get; set; }
 
         public bool Equals(EventsterEvent other)
         {
@@ -98,9 +108,12 @@ namespace C211Eventster.Library.Models
                 {
                     EventName = $"{GetEntry(EventNameFragment1)} {GetEntry(EventNameFragment2)}",
                     Venue = $"{GetEntry(EventNameFragment3)}",
-                    Address = GetEntry(AddressOptions)
+                    Address = GetEntry(AddressOptions),
+                    ImageSource =
+                        new BitmapImage(new Uri($"ms-appx:///Assets/EventImagesSmall/{Random.Next(1, 11)}.jpg"))
                 };
 
+                eventsterEvent.Symbol = new[] { Symbol.Favorite, Symbol.Emoji, Symbol.Memo, }[Random.Next(0,3)];
                 eventsterEvent.Location =
                     AddressBasicGeopoints[Array.IndexOf(AddressOptions, eventsterEvent.Address)];
                 if (events.Contains(eventsterEvent))

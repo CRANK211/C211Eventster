@@ -1,10 +1,7 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Package xmlns="http://schemas.microsoft.com/appx/manifest/foundation/windows10" xmlns:mp="http://schemas.microsoft.com/appx/2014/phone/manifest" xmlns:uap="http://schemas.microsoft.com/appx/manifest/uap/windows10" IgnorableNamespaces="uap mp">
-  <Identity
-    Name="fce01c3a-642e-4bbb-95d2-c65555e4f0cd"
-    Publisher = "CN=daren"
-    Version = "1.0.0.0" /> 
-  <mp:PhoneIdentity PhoneProductId="fce01c3a-642e-4bbb-95d2-c65555e4f0cd" PhonePublisherId="00000000-0000-0000-0000-000000000000"/>
+  <Identity Name="fce01c3a-642e-4bbb-95d2-c65555e4f0cd" Publisher="CN=daren" Version="1.0.0.0" />
+  <mp:PhoneIdentity PhoneProductId="fce01c3a-642e-4bbb-95d2-c65555e4f0cd" PhonePublisherId="00000000-0000-0000-0000-000000000000" />
   <Properties>
     <DisplayName>C211Eventster</DisplayName>
     <PublisherDisplayName>daren</PublisherDisplayName>
@@ -18,10 +15,13 @@
   </Resources>
   <Applications>
     <Application Id="App" Executable="$targetnametoken$.exe" EntryPoint="C211Eventster.App">
-      <uap:VisualElements DisplayName="C211Eventster.App" Square150x150Logo="Assets\Square150x150Logo.png" Square44x44Logo="Assets\Square44x44Logo.png" Description="Minimal" BackgroundColor="transparent">
-        <uap:DefaultTile Wide310x150Logo="Assets\Wide310x150Logo.png">
+      <uap:VisualElements DisplayName="C211Eventster" Square150x150Logo="Assets\Square150x150Logo.png" Square44x44Logo="Assets\Square44x44Logo.png" Description="Minimal" BackgroundColor="#35b4d8">
+        <uap:DefaultTile Wide310x150Logo="Assets\Wide310x150Logo.png" Square310x310Logo="Assets\Square310x310Logo.png" Square71x71Logo="Assets\Square71x71Logo.png">
+          <uap:ShowNameOnTiles>
+            <uap:ShowOn Tile="square310x310Logo" />
+          </uap:ShowNameOnTiles>
         </uap:DefaultTile>
-        <uap:SplashScreen Image="Assets\SplashScreen.png" />
+        <uap:SplashScreen Image="Assets\SplashScreen.png" BackgroundColor="#35b4d8" />
       </uap:VisualElements>
     </Application>
   </Applications>

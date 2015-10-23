@@ -7,9 +7,11 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:vm="using:C211Eventster.ViewModels"
     xmlns:controls="using:Template10.Controls"
-    xmlns:Interactivity="using:Microsoft.Xaml.Interactivity" 
-    xmlns:Behaviors="using:Template10.Behaviors" 
+    xmlns:Interactivity="using:Microsoft.Xaml.Interactivity"
+    xmlns:Behaviors="using:Template10.Behaviors"
     xmlns:Core="using:Microsoft.Xaml.Interactions.Core"
+    xmlns:maps="using:Windows.UI.Xaml.Controls.Maps"
+    xmlns:libraryModels="using:C211Eventster.Library.Models"
     mc:Ignorable="d" x:Name="ThisPage">
     <Page.DataContext>
         <vm:DetailPageViewModel />
@@ -23,13 +25,15 @@
             <VisualStateGroup x:Name="VisualStateGroup">
                 <VisualState x:Name="VisualStateNarrow">
                     <VisualState.StateTriggers>
-                        <AdaptiveTrigger x:Name="VisualStateNarrowTrigger" MinWindowWidth="{StaticResource NarrowMinWidth}" />
+                        <AdaptiveTrigger x:Name="VisualStateNarrowTrigger"
+                                         MinWindowWidth="{StaticResource NarrowMinWidth}" />
                     </VisualState.StateTriggers>
                     <VisualState.Setters />
                 </VisualState>
                 <VisualState x:Name="VisualStateNormal">
                     <VisualState.StateTriggers>
-                        <AdaptiveTrigger x:Name="VisualStateNormalTrigger" MinWindowWidth="{StaticResource NormalMinWidth}" />
+                        <AdaptiveTrigger x:Name="VisualStateNormalTrigger"
+                                         MinWindowWidth="{StaticResource NormalMinWidth}" />
                     </VisualState.StateTriggers>
                     <VisualState.Setters />
                 </VisualState>
@@ -42,11 +46,10 @@
         </Grid.RowDefinitions>
 
         <!-- header -->
-        <controls:PageHeader Frame="{x:Bind Frame}" >
+        <controls:PageHeader Frame="{x:Bind Frame}">
             <controls:PageHeader.Content>
                 <TextBlock>
-                    <Run Text="Detail Page. You passed:"/>
-                    <Run Text="{Binding Value}"/>
+                    <Run Text="  Search Results" />
                 </TextBlock>
             </controls:PageHeader.Content>
         </controls:PageHeader>
@@ -54,16 +57,79 @@
         <!--#region content-->
 
         <Grid Grid.Row="1">
-            <ScrollViewer Padding="12,8,0,0" VerticalScrollBarVisibility="Auto">
-                <TextBlock Style="{StaticResource TitleTextBlockStyle}">
-                    <Run Text="You passed: " />
-                    <Run Text="{Binding Value}" />
-                </TextBlock>
-            </ScrollViewer>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
+
+            <ListView x:Name="SearchResults"
+                      ItemsSource="{x:Bind ViewModel.ResultsViewModel.EventsterEvents, Mode=OneWay}"
+                      SelectedItem="{Binding ResultsViewModel.CurrentEvent, Mode=TwoWay}"
+                      SelectionChanged="SearchResults_SelectionChanged">
+                <ListView.ItemTemplate>
+                    <DataTemplate x:DataType="libraryModels:EventsterEvent">
+                        <Grid Margin="-8,4,4,4">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition/>
+                            </Grid.ColumnDefinitions>
+
+                            <Border Background="#35b4d8">
+                                <SymbolIcon Symbol="{x:Bind Symbol}" Margin="8,0" Foreground="White"/>
+                            </Border>
+
+                            <StackPanel Grid.Column="1"
+                                        Margin="4">
+                                <TextBlock Style="{StaticResource TitleTextBlockStyle}" Text="{x:Bind EventName}"/>
+                                <TextBlock Style="{StaticResource BodyTextBlockStyle}" Text="{x:Bind Venue}"/>
+                            </StackPanel>
+                        </Grid>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+
+            <Grid Grid.Column="1" Padding="12"
+                  Visibility="{x:Bind SearchResults.SelectedItem, Converter={StaticResource VisibilityConverter}, Mode=OneWay}">
+                <Grid.Background>
+                    <ImageBrush ImageSource="{Binding SelectedItem.ImageSource, ElementName=SearchResults}" Stretch="UniformToFill"/>
+                </Grid.Background>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition />
+                </Grid.RowDefinitions>
+
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                </Grid.ColumnDefinitions>
+
+                <StackPanel Grid.Row="0" Grid.Column="0"
+                            Background="#CCFFFFFF"
+                            Margin="24"
+                            Padding="24">
+                    <TextBlock Text="{Binding SelectedItem.EventName, ElementName=SearchResults}"
+                               Style="{StaticResource HeaderTextBlockStyle}" />
+                    <TextBlock Text="{Binding SelectedItem.Venue, ElementName=SearchResults}"
+                               Style="{StaticResource SubheaderTextBlockStyle}" />
+                    <TextBlock Text="{Binding SelectedItem.Address, ElementName=SearchResults}"
+                               Style="{StaticResource BodyTextBlockStyle}" />
+                    <TextBlock Text="{Binding SelectedItem.Description, ElementName=SearchResults}"
+                               Style="{StaticResource BodyTextBlockStyle}"
+                               Margin="0,12,0,0"/>
+                </StackPanel>
+                <maps:MapControl x:Name="DetailMapControl"
+                                 Margin="24"
+                                 HorizontalAlignment="Stretch"
+                                 VerticalAlignment="Stretch"
+                                 Grid.ColumnSpan="2"
+                                 Grid.Row="1"
+                                 ZoomLevel="17"
+                                 Center="{x:Bind SearchResults.SelectedItem.(libraryModels:EventsterEvent.Location), Mode=OneWay}"
+                                 MapServiceToken="{StaticResource BingMapKey}" />
+            </Grid>
         </Grid>
 
         <!--#endregion-->
 
     </Grid>
 </Page>
-

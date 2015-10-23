@@ -5,9 +5,42 @@
     xmlns:local="using:C211Eventster.Views"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:controls="using:Template10.Controls"
+    xmlns:interactivity="using:Microsoft.Xaml.Interactivity"
+    xmlns:behaviors="using:Template10.Behaviors"
+    xmlns:core="using:Microsoft.Xaml.Interactions.Core"
+    xmlns:maps="using:Windows.UI.Xaml.Controls.Maps"
     mc:Ignorable="d">
 
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition />
+        </Grid.RowDefinitions>
+        <controls:PageHeader BackButtonVisibility="Collapsed" Content="  Events Near Me"
+                             Frame="{x:Bind Frame, Mode=OneWay}">
+            <interactivity:Interaction.Behaviors>
+                <behaviors:EllipsisBehavior Visibility="Collapsed" />
+            </interactivity:Interaction.Behaviors>
+        </controls:PageHeader>
+
+        <!--  #region content  -->
+
+        <Grid Grid.Row="1" >
+
+            <maps:MapControl x:Name="OverallMapControl"
+                             HorizontalAlignment="Stretch"
+                             VerticalAlignment="Stretch"
+                             ZoomLevel="14"
+                             MapServiceToken="{StaticResource BingMapKey}" />
+
+
+        </Grid>
+
+        <!--  #endregion  -->
+
 
     </Grid>
 </Page>

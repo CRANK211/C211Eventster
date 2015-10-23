@@ -14,7 +14,7 @@
     </Page.DataContext>
     <Grid>
         <Grid.Background>
-            <ImageBrush ImageSource="ms-appx:///Assets/EventImages/6.jpeg" Stretch="UniformToFill" />
+            <ImageBrush ImageSource="ms-appx:///Assets/EventImagesSmall/6.jpg" Stretch="UniformToFill" />
         </Grid.Background>
         <VisualStateManager.VisualStateGroups>
             <VisualStateGroup x:Name="VisualStateGroup">
@@ -30,11 +30,12 @@
                 </VisualState>
             </VisualStateGroup>
         </VisualStateManager.VisualStateGroups>
+        
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition />
         </Grid.RowDefinitions>
-        <controls:PageHeader BackButtonVisibility="Collapsed" Content="Main Page" Frame="{x:Bind Frame, Mode=OneWay}">
+        <controls:PageHeader BackButtonVisibility="Collapsed" Content="  Main Page" Frame="{x:Bind Frame, Mode=OneWay}">
             <Interactivity:Interaction.Behaviors>
                 <Behaviors:EllipsisBehavior Visibility="Collapsed" />
             </Interactivity:Interaction.Behaviors>
@@ -55,7 +56,7 @@
                      VerticalContentAlignment="Center"
                      Background="White"
                      Text="{Binding Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                     TextWrapping="Wrap">
+                     TextWrapping="Wrap" FontSize="24">
                 <Interactivity:Interaction.Behaviors>
                     <Behaviors:TextBoxEnterKeyBehavior>
                         <Core:CallMethodAction MethodName="GotoDetailsPage" TargetObject="{Binding}" />
@@ -64,7 +65,7 @@
             </TextBox>
 
             <Button Margin="12,0" Grid.Column="1"
-                    Click="{x:Bind ViewModel.GotoDetailsPage}" >
+                    Click="{x:Bind ViewModel.GotoDetailsPage}" FontSize="24" >
                 <SymbolIcon Symbol="Find"/>
             </Button>
 

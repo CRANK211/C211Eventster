@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.ObjectModel;
+using System.Linq;
 using C211Eventster.Library.Models;
 using Template10.Mvvm;
 
@@ -33,6 +34,7 @@ namespace C211Eventster.Library.ViewModels
         {
             EventsterEvents.Clear();
             EventsterEvent.EventFactory(20).ForEach(e => EventsterEvents.Add(e));
+            this.CurrentEvent = EventsterEvents.First();
             OnResultsLoaded();
         }
     }
