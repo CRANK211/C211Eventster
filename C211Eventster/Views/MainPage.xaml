@@ -51,6 +51,7 @@
             </Grid.ColumnDefinitions>
 
             <TextBox Width="500" MinWidth="200"
+                     x:Name="SearchTextBox"
                      BorderThickness="0" Margin="0"
                      AcceptsReturn="True" PlaceholderText="Please enter your search"
                      VerticalContentAlignment="Center"
